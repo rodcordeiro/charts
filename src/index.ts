@@ -1,10 +1,17 @@
 import { Reports } from "./charts";
 import { getWorkItems } from "./azure";
+import spinner from "./common/loader";
 
 const data = async () => await getWorkItems();
-data();
-
-// const charts = new Reports();
+const charts = new Reports(`${new Date().toISOString()}.xlsx`);
+spinner.start("bot::starting report");
+(async () => {
+  const workitems = await data();
+  spinner.info();
+  charts.createTypeReport(workitems);
+  charts.write();
+  //   console.log(workitems[0]);
+})();
 
 // const opts = {
 //   file: "charts.xlsx", // new Date().toISOString(),

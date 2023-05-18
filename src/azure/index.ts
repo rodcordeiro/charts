@@ -19,7 +19,7 @@ export const getWorkItems = async () => {
     const queryResult = await wiClient.queryById(
       "09864a47-8651-4e10-9513-5a06f144c716"
     );
-    spinner.text = "azure::processing result";
+    spinner.text = "azure::work items retrieved successfully. Processing data...";
     // console.debug("azure::query result getted");
     const batch = new Batch(queryResult.workItems!);
     let workitems: WorkItem[] = [];

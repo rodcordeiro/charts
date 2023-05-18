@@ -27,16 +27,30 @@ export class Batch<T = unknown> {
 
   async batchProcess(cb: (batch: T[]) => Promise<void>, batchLength = 10) {
     const batchData = this.createBatch(batchLength);
-    // let i = 1;
+    let i = 1;
     for await (const batch of batchData) {
-      // spinner.text = `batch::processing ${i * (batchData.length / 10)}%`;
+      spinner.text = `batch::processing ${Math.round(
+        (i / batchData.length) * 100
+      )}%`;
       await cb(batch);
-      // i++;
+      i++;
     }
   }
-  async process(cb: (data: T) => Promise<void>) {
-    for await (const data of this.data) {
-      await cb(data);
+  async process(
+    cb: (data: T) => Promise<void>,
+    filter?: (data: T, index?: number, array?: Array<T>) => boolean
+  ) {
+    let i = 1;
+    let data = this.data;
+    if (filter) {
+      data = data.filter((item, index) => filter(item, index, data));
+    }
+    for await (const item of data) {
+      spinner.text = `batch::processing ${Math.round(
+        (i / this.data.length) * 100
+      )}%`;
+      await cb(item);
+      i++;
     }
   }
 }

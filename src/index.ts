@@ -3,12 +3,13 @@ import { getWorkItems } from "./azure";
 import spinner from "./common/loader";
 
 const data = async () => await getWorkItems();
-const charts = new Reports(`${new Date().toISOString()}.xlsx`);
 spinner.start("bot::starting report");
 (async () => {
   const workitems = await data();
-  spinner.info();
-  charts.createTypeReport(workitems);
+  const charts = new Reports(`charts.xlsx`, workitems);
+  // const charts = new Reports(`./${new Date().toISOString()}.xlsx`, workitems);
+  charts.createTypeReport();
+  charts.createClientReport("Eskala");
   charts.write();
   //   console.log(workitems[0]);
 })();

@@ -4,7 +4,7 @@ import { Batch } from "../common/Batch.util";
 import spinner from "../common/loader";
 
 const authHandler = getPersonalAccessTokenHandler(
-  "z4ctqvrblhqiyeangkkeend5odkvawd7a7gxtiayx6f5v43ykcnq"
+  "qjv27iqppskcq7gkyvwnqto3k4lrusihvyu7tdf6axtodh3hppka"
 );
 export const client = new WebApi(
   "https://dev.azure.com/pdasolucoes",
@@ -19,7 +19,8 @@ export const getWorkItems = async () => {
     const queryResult = await wiClient.queryById(
       "09864a47-8651-4e10-9513-5a06f144c716"
     );
-    spinner.text = "azure::work items retrieved successfully. Processing data...";
+    spinner.text =
+      "azure::work items retrieved successfully. Processing data...";
     // console.debug("azure::query result getted");
     const batch = new Batch(queryResult.workItems!);
     let workitems: WorkItem[] = [];
